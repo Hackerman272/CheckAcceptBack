@@ -24,19 +24,16 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:15]
 
 
 @csrf_exempt
 def get_url(request):
     data = json.loads(request.body)
-    text = data.get('text', None)
-    post = Question.objects.create(question_text=text)
+    data = data['text']
+    post = Question.objects.create(question_text=data, pub_date=timezone.now())
     post.save()
-    # json_string = request.POST.get()
-    # data = str(json.loads()[0])
-    # text = Question.objects.create(question_text=data)
-    # text.save()
+    return render(request, '')
 
 
 class DetailView(generic.DetailView):
