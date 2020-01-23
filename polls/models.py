@@ -8,6 +8,14 @@ from django.db import models
 from django.utils import timezone
 
 
+class AcceptanceLog(models.Model):
+    page_url = models.CharField(max_length=500)
+    acceptance_date = models.DateTimeField('date of acceptance')
+
+    def __str__(self):
+        return self.acceptance_date, self.page_url
+
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
